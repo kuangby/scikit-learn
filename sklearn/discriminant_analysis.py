@@ -574,7 +574,11 @@ class LinearDiscriminantAnalysis(
         if is_array_api_compliant:
             svd = xp.linalg.svd
         else:
-            svd = scipy.linalg.svd
+            # Use numpy's SVD instead of scipy's: both call LAPACK gesdd, but
+            # scipy's f2py wrapper holds the GIL for the whole call while
+            # numpy's umath_linalg gufunc releases it. On large input this
+            # keeps the interpreter (e.g. a GUI main thread) responsive.
+            svd = np.linalg.svd
 
         n_samples, _ = X.shape
         n_classes = self.classes_.shape[0]
