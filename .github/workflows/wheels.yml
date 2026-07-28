@@ -12,6 +12,8 @@ on:
       - main
       # Release branches
       - "[0-9]+.[0-9]+.X"
+      # Fork: GIL patch development branch
+      - "gilfix-1.8"
   pull_request:
     branches:
       - main
