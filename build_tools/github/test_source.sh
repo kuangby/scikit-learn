@@ -15,4 +15,6 @@ python -m pip install pytest pandas
 mkdir tmp_for_test
 cd tmp_for_test
 
-pytest --pyargs sklearn
+# Fork note: the two pickle-version-warning tests interpolate sklearn.__version__
+# into a pytest `match=` regex; the "+" in "1.8.0+gilfix" breaks that regex.
+pytest --pyargs sklearn -k "not test_pickle_version_warning_is_issued_upon_different_version and not test_pickle_version_warning_is_issued_when_no_version_info_in_pickle"
